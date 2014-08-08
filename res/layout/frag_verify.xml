@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+   	<LinearLayout
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:orientation="vertical"
+   	    android:useDefaultMargins="true" >
+   
+	<HorizontalScrollView
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" >
+	    
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:useDefaultMargins="true" >
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="left"
+	            android:text="Certificate details"
+	            android:layout_marginBottom="20dp"
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="left"
+	            android:text="Common Name (CN):"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:textStyle="bold" />
+	        <TextView
+	            android:id="@+id/cert_cn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="left"
+	            android:layout_marginBottom="10dp"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        
+	        <TextView
+	            android:layout_gravity="left"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:text="Serial Number:"
+	            android:textStyle="bold"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        <TextView
+	            android:id="@+id/cert_serial"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dp"
+	            android:layout_gravity="left"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	        <TextView
+	            android:layout_gravity="left"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:text="Signature (SHA1):"
+	            android:textStyle="bold"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        <TextView
+	            android:id="@+id/cert_sig_sha1"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dp"
+	            android:layout_gravity="left"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	        <TextView
+	            android:layout_gravity="left"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:text="Signature (MD5):"
+	            android:textStyle="bold"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        <TextView
+	            android:id="@+id/cert_sig_md5"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dp"
+	            android:layout_gravity="left"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	        <TextView
+	            android:layout_gravity="left"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:text="Valid from:"
+	            android:textStyle="bold"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        <TextView
+	            android:id="@+id/cert_valid_from"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dp"
+	            android:layout_gravity="left"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        
+	        <TextView
+	            android:layout_gravity="left"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:text="Valid until:"
+	            android:textStyle="bold"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        <TextView
+	            android:id="@+id/cert_valid_until"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dp"
+	            android:layout_gravity="left"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        	
+	        <TextView
+	            android:layout_gravity="left"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:text="Basic constraints*:"
+	            android:textStyle="bold"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        <TextView
+	            android:id="@+id/cert_basic_constraints"
+	            android:layout_width="wrap_content" android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dp"
+	            android:layout_gravity="left"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        
+	    </LinearLayout>
+	</HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/cert_hostname_not_matching"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginBottom="10dp"
+        android:text="@string/hostname_not_matching"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:drawableLeft="@drawable/alerts_and_states_warning"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/cert_currently_not_valid"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginBottom="10dp"
+        android:text="@string/currently_not_valid"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:drawableLeft="@drawable/alerts_and_states_warning"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/cert_basic_constraints_not_set"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginBottom="10dp"
+        android:text="@string/basic_constraints_not_set"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:drawableLeft="@drawable/alerts_and_states_warning"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/cert_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="@string/cert_notes"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+</ScrollView>
