@@ -70,23 +70,16 @@ public class MainActivity extends Activity {
 		FragmentManager fm = getFragmentManager();
 		
 		Fragment nextFragment = null;
-		switch (tag) {
-		case IntroFragment.TAG:
+		if (IntroFragment.TAG.equals(tag))
 			nextFragment = new IntroFragment();
-			break;
-		case FetchFragment.TAG:
+		else if (FetchFragment.TAG.equals(tag))
 			nextFragment = new FetchFragment();
-			break;
-		case VerifyFragment.TAG:
+		else if (VerifyFragment.TAG.equals(tag))
 			nextFragment = new VerifyFragment();
-			break;
-		case ExportFragment.TAG:
+		else if (ExportFragment.TAG.equals(tag))
 			nextFragment = new ExportFragment();
-			break;
-		case ImportFragment.TAG:
+		else if (ImportFragment.TAG.equals(tag))
 			nextFragment = new ImportFragment();
-			break;
-		}
 		
 		FragmentTransaction ft = fm.beginTransaction()
 			.replace(R.id.fragment_container, nextFragment, tag);
@@ -97,29 +90,23 @@ public class MainActivity extends Activity {
 		ft.commitAllowingStateLoss();
 	}
 	
-	public void onShowFragment(String type) {
-		activeFragmentTag = type;
+	public void onShowFragment(String tag) {
+		activeFragmentTag = tag;
 		
 		if (titlesList != null) {
 			titlesList.clearChoices();
 			
 			int position = 0;
-			switch (type) {
-			/*case IntroFragment.TAG:
+			/*if (IntroFragment.TAG.equals(tag))
 				position = 0;
-				break;*/
-			case FetchFragment.TAG:
+			else */ if (FetchFragment.TAG.equals(tag))
 				position = 1;
-				break;
-			case VerifyFragment.TAG:
+			else if (VerifyFragment.TAG.equals(tag))
 				position = 2;
-				break;
-			case ExportFragment.TAG:
+			else if (ExportFragment.TAG.equals(tag))
 				position = 3;
-				break;
-			case ImportFragment.TAG:
+			else if (ImportFragment.TAG.equals(tag))
 				position = 4;
-			}
 			titlesList.setItemChecked(position, true);
 		}
 	}
