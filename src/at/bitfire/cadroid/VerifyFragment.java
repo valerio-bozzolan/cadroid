@@ -1,9 +1,10 @@
 package at.bitfire.cadroid;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
+
+import org.apache.commons.lang3.StringUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
@@ -39,35 +40,32 @@ public class VerifyFragment extends Fragment {
 		main.onShowFragment(TAG);
 		
 		info = main.getCertificateInfo();
-		X509Certificate cert = info.certificate;
+		//X509CertificateObject cert = info.getCertificate();
 		
 		
 		// show certificate details
 		
-		String cn = cert.getSubjectDN().getName();
-		((TextView)v.findViewById(R.id.cert_cn)).setText(cn);
+		((TextView)v.findViewById(R.id.cert_cn)).setText(info.getSubject());
 		
-		String serialNo = cert.getSerialNumber().toString(16);
+		String altSubjNames = (info.getAltSubjectNames().length > 0) ?
+				StringUtils.join(info.getAltSubjectNames()) : "n/a";
+		((TextView)v.findViewById(R.id.cert_altsubjnames)).setText(altSubjNames);
+		
+		String serialNo = info.getSerialNumber().toString(16);
 		((TextView)v.findViewById(R.id.cert_serial)).setText(serialNo);
 
-		((TextView)v.findViewById(R.id.cert_sig_sha1)).setText(getSignature(cert, "SHA-1"));
-		((TextView)v.findViewById(R.id.cert_sig_md5)).setText(getSignature(cert, "MD5"));
+		((TextView)v.findViewById(R.id.cert_sig_sha1)).setText(getSignature(info, "SHA-1"));
+		((TextView)v.findViewById(R.id.cert_sig_md5)).setText(getSignature(info, "MD5"));
 		
-		((TextView)v.findViewById(R.id.cert_valid_from)).setText(cert.getNotBefore().toString());
-		((TextView)v.findViewById(R.id.cert_valid_until)).setText(cert.getNotAfter().toString());
+		((TextView)v.findViewById(R.id.cert_valid_from)).setText(info.getNotBefore().toString());
+		((TextView)v.findViewById(R.id.cert_valid_until)).setText(info.getNotAfter().toString());
 
-		int basicConstraints = cert.getBasicConstraints();
 		String basicConstraintsInfo;
-		switch (basicConstraints) {
-		case -1:
-			basicConstraintsInfo = "n/a";
-			break;
-		case Integer.MAX_VALUE:
-			basicConstraintsInfo = "Unlimited path length";
-			break;
-		default:
-			basicConstraintsInfo = "Max path length: " + basicConstraints;
-		}
+		if (info.isCA) {
+			basicConstraintsInfo = "CA:TRUE, " + ((info.pathLength == null) ?
+					"unlimited path length" : "max path length: " + info.pathLength);
+		} else
+			basicConstraintsInfo = "n/a or CA:FALSE";
 		((TextView)v.findViewById(R.id.cert_basic_constraints)).setText(basicConstraintsInfo);
 		
 		
@@ -83,10 +81,10 @@ public class VerifyFragment extends Fragment {
 		}
 		
 		// expired / not yet valid
-		v.findViewById(R.id.cert_currently_not_valid).setVisibility(info.currentlyValid() ? View.GONE : View.VISIBLE);
+		v.findViewById(R.id.cert_currently_not_valid).setVisibility(info.isCurrentlyValid() ? View.GONE : View.VISIBLE);
 		
-		// basic constraints not set
-		v.findViewById(R.id.cert_basic_constraints_not_set).setVisibility(info.basicConstraintsValid() ? View.GONE : View.VISIBLE);
+		// CA flag not set
+		v.findViewById(R.id.cert_is_not_a_ca).setVisibility(info.isCA ? View.GONE : View.VISIBLE);
 	}
 
 	
@@ -101,7 +99,7 @@ public class VerifyFragment extends Fragment {
 	public void onPrepareOptionsMenu(Menu menu) {
 		boolean ok = false;
 		if (info != null)
-			ok = info.hostNameVerified && info.basicConstraintsValid();
+			ok = info.hostNameVerified && info.isCA;
 		menu.findItem(R.id.next).setEnabled(ok);
 	}
 	
@@ -120,7 +118,7 @@ public class VerifyFragment extends Fragment {
 	
 	// private methods
 	
-	private String getSignature(X509Certificate cert, String algorithm) {
+	private String getSignature(CertificateInfo cert, String algorithm) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance(algorithm);
 			digest.update(cert.getEncoded());
@@ -130,7 +128,7 @@ public class VerifyFragment extends Fragment {
 			return sig;
 		} catch (NoSuchAlgorithmException e) {
 			return "(algorithm not available on device)";
-		} catch (CertificateEncodingException e) {
+		} catch (IOException e) {
 			return "(couldn't encode certificate)";
 		}
 	}

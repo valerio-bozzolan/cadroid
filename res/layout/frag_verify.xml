@@ -43,6 +43,21 @@
 	            android:textAppearance="?android:attr/textAppearanceMedium" />
 	        
 	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="left"
+	            android:text="Alternative subj. names:"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:textStyle="bold" />
+	        <TextView
+	            android:id="@+id/cert_altsubjnames"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="left"
+	            android:layout_marginBottom="10dp"
+	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	        
+	        <TextView
 	            android:layout_gravity="left"
 	            android:layout_width="wrap_content" android:layout_height="wrap_content"
 	            android:text="Serial Number:"
@@ -148,24 +163,16 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/cert_basic_constraints_not_set"
+        android:id="@+id/cert_is_not_a_ca"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginBottom="10dp"
-        android:text="@string/basic_constraints_not_set"
+        android:text="@string/is_not_a_ca"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:drawableLeft="@drawable/alerts_and_states_warning"
         android:drawablePadding="10dp"
         android:padding="10dp"
         android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/cert_notes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:text="@string/cert_notes"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
 </ScrollView>

@@ -51,7 +51,7 @@ class CertificateInfoLoader extends AsyncTaskLoader<CertificateInfo> {
 
 		} catch (Exception e) {
 			Log.w(TAG, "Exception while retrieving URL", e);
-			info.errorMessage = e.getMessage();
+			info.setErrorMessage(e.getMessage());
 		}
 
 		return info;

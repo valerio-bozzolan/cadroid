@@ -38,12 +38,12 @@ public class FetchingCertificateFragment extends DialogFragment implements Loade
 	@Override
 	public void onLoadFinished(Loader<CertificateInfo> loader, CertificateInfo info) {
 		
-		if (info.errorMessage == null) {
+		if (info.getErrorMessage() == null) {
 			MainActivity main = (MainActivity)getActivity();
 			main.setCertificateInfo(info);
 			main.showFragment(VerifyFragment.TAG, true);
 		} else
-			Toast.makeText(getActivity(), info.errorMessage, Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), info.getErrorMessage(), Toast.LENGTH_LONG).show();
 		
 		getDialog().dismiss();
 	}

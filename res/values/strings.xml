@@ -43,12 +43,8 @@
     
     <string name="hostname_not_matching">Host name \"%1$s\" doesn\'t match certificate subject (according to BrowserCompatHostnameVerifier)!</string>
     <string name="currently_not_valid">Certificate has expired or is not yet valid!</string>
-    <string name="basic_constraints_not_set">Basic constraints extension (\"CA flag\") not set although Android
+    <string name="is_not_a_ca">The CA flag in the Basic Contraints extension is not set although Android
         requires it! Android would import the certificate without showing an error, but it wouldn\'t appear in the list.</string>
-    <string name="cert_notes">* Basic contraints (\"CA flag\") not detected correctly on all Android versions (for instance,
-        Galaxy Note 10.1/Android 4.1 doesn\'t work while CyanogenMod 11/Android 4.4 always does). Make sure
-        you have set the \"CA flag\" when the certificate is generated because Android requires it! If it is not
-        set correctly, Android will import the certificate without error, but it won\'t appear in the list.</string>
         
     <string name="export_successful">The certificate has been exported. Remember the file name because you may have to select it in the next step:</string>
     <string name="export_failed">The certificate couldn\'t be exported!</string>

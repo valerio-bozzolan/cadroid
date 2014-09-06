@@ -30,7 +30,7 @@ public class InfoTrustManager implements X509TrustManager {
 		if (chain.length != 1)
 			throw new CertificateException("Currently, only self-signed certificates are supported.");
 		
-		info.certificate = chain[0];
+		info.setCertificate(chain[0]);
 	}
 
 	@Override

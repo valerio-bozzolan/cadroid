@@ -1,10 +1,20 @@
 package at.bitfire.cadroid;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.bouncycastle.asn1.x509.BasicConstraints;
+import org.bouncycastle.asn1.x509.Extensions;
+import org.bouncycastle.asn1.x509.X509Extensions;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,24 +22,69 @@ import android.util.Log;
 
 public class CertificateInfo implements Parcelable {
 	private final static String TAG = "cadroid.CertificateInfo";
-	
-	String errorMessage;
-	
-	X509Certificate certificate;
-	
+
 	String hostName;
 	boolean hostNameVerified;
 	
-	public boolean basicConstraintsValid() {
-		return certificate.getBasicConstraints() >= 1;
-	}
+	private String errorMessage;
+	public String getErrorMessage() { return errorMessage; }
+	public void setErrorMessage(String msg) { errorMessage = msg; }
 	
-	public boolean currentlyValid() {
+	private String subject;
+	public String getSubject() { return subject; }
+	
+	private LinkedList<String> altSubjectNames;
+	public String[] getAltSubjectNames() { return altSubjectNames.toArray(new String[0]); }
+
+	private BigInteger serialNumber;
+	public BigInteger getSerialNumber() { return serialNumber; }
+	
+	private Date notBefore;
+	public Date getNotBefore() { return notBefore; }
+	
+	private Date notAfter;
+	public Date getNotAfter() { return notAfter; }
+	
+	private boolean currentlyValid;
+	public boolean isCurrentlyValid() { return currentlyValid; }
+	
+	BigInteger pathLength;
+	boolean isCA;
+
+	protected X509CertificateHolder certificate;
+	public byte[] getEncoded() throws IOException { return certificate.getEncoded(); }
+	public void setCertificate(X509Certificate certificate) {
 		try {
-			certificate.checkValidity();
-			return true;
-		} catch (Exception e) {
-			return false;
+			subject = certificate.getSubjectDN().getName();
+			serialNumber = certificate.getSerialNumber();
+			
+			altSubjectNames = new LinkedList<String>();
+			if (certificate.getSubjectAlternativeNames() != null)
+				for (List<?> altName : certificate.getSubjectAlternativeNames()) {
+					int type = (Integer)altName.get(0);
+					Object name = altName.get(1);
+					if (name instanceof Array)
+						altSubjectNames.add(new String((byte[])name));
+					else
+						altSubjectNames.add((String)name);
+				}
+			
+			// use Bouncy Castle to parse some other details
+			JcaX509CertificateHolder certHolder = new JcaX509CertificateHolder(certificate);
+			this.certificate = certHolder;
+			
+			notBefore = certHolder.getNotBefore();
+			notAfter = certHolder.getNotAfter();
+			currentlyValid = certHolder.isValidOn(new Date());
+			
+			Extensions extensions = this.certificate.getExtensions();
+		    BasicConstraints bc = BasicConstraints.fromExtensions(extensions);
+		    isCA = bc.isCA();
+		    pathLength = bc.getPathLenConstraint();
+		} catch (CertificateEncodingException e) {
+			Log.e(TAG, "Encoding error", e);
+		} catch (CertificateParsingException e) {
+			Log.e(TAG, "Parsing error", e);
 		}
 	}
 	
@@ -51,7 +106,7 @@ public class CertificateInfo implements Parcelable {
 		byte[] cert = null;
 		try {
 			cert = certificate.getEncoded();
-		} catch (CertificateEncodingException e) {
+		} catch (IOException e) {
 			Log.e(TAG, "Couldn't encode certificate", e);
 		}
 		if (cert != null) {
@@ -74,11 +129,9 @@ public class CertificateInfo implements Parcelable {
 			in.readByteArray(cert);
 			
 			try {
-				CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-				ByteArrayInputStream is = new ByteArrayInputStream(cert);
-				info.certificate = (X509Certificate)certFactory.generateCertificate(is);
-			} catch (CertificateException e) {
-				Log.e(TAG, "Couldn't get CertificateFactory", e);
+				info.certificate = new X509CertificateHolder(cert);
+			} catch (IOException e) {
+				Log.e(TAG, "I/O exception", e);
 			}
 
 			return info;

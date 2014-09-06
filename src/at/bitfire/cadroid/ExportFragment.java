@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -44,7 +43,7 @@ public class ExportFragment extends Fragment {
 				 tvExportResult = (TextView)getView().findViewById(R.id.export_result);
 		
 		try {
-			String outputFile = exportCertificate(info.certificate);
+			String outputFile = exportCertificate(info);
 			
 			exported = true;
 			tvExportStatus.setText(R.string.export_successful);
@@ -84,11 +83,11 @@ public class ExportFragment extends Fragment {
 	
 	// private methods
 	
-	private String exportCertificate(X509Certificate certificate) throws CertificateEncodingException, IOException {
-		File file = new File(Environment.getExternalStorageDirectory(), certificate.getSerialNumber().toString(16) + ".crt");
+	private String exportCertificate(CertificateInfo cert) throws CertificateEncodingException, IOException {
+		File file = new File(Environment.getExternalStorageDirectory(), cert.getSerialNumber().toString(16) + ".crt");
 		FileOutputStream fos = new FileOutputStream(file);
 		try {
-			fos.write(certificate.getEncoded());
+			fos.write(cert.getEncoded());
 		} finally {
 			fos.close();
 		}
