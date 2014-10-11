@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CAdroid</string>
+    
+    <string name="intro_title">1 Intro</string>
+    <string name="intro_text"><![CDATA[
+        <h1>Benvenuto in CAdroid!</h1>
+        
+        <p>Quest\'app mira ad assisterti durante l\'importazione dei tuoi certificati autofirmati (self-signed)
+        nel tuo dispositivo Android.</p>
+        
+        <h1>Come funziona?</h1>
+        
+        <p>Dopo che hai inserito l\'host name di un sito in HTTPS, il corrispondente certificato sarà
+        estratto e visualizzato. Gli eventuali errori che potrebbero impedire il successo del processo d\'importazione
+        saranno individuati e visualizzati. Non appena avrai verificato il certificato in questione
+        e la sua impronta digitale (fingerprints), il certificato sarà esportato in un file .crt.</p>
+        
+        <p>Potrai quindi importare il tuo certificato con molta facilità e con pochi click.</p>
+        
+        <p>Una volta che il certificato sarà importato correttamente, sarà accettato per (quasi) tutte
+        le app, compresa <a href="http://davdroid.bitfire.at">DAVdroid</a> e il
+        client email di Android (<a href="https://code.google.com/p/android/issues/detail?id=67038">lì non
+        scegliere \"Accetta tutti i certificati\"</a>).</p>
+        
+        <h1>Maggiori informazioni</h1>
+        
+        <p>* <a href="http://cadroid.bitfire.at">Pagina principale di CAdroid</a><br />
+        * <a href="https://github.com/bitfireAT/cadroid">Github page</a> (codice sorgente, problemi)</p>
+        
+        <p>Copyright (c) 2013 – 2014 Ricki Hirner (<a href="http://www.bitfire.at">bitfire web engineering</a>). All rights reserved.
+	    This program and the accompanying materials are made available under the terms of the GNU Public License v3.0 which
+	    accompanies this distribution, and is available at <a
+	    href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a>. As far as Google Play, Samsung
+	    Store, AndroidPit App Center or Amazon Appstore require other terms, the respective terms apply for versions
+	    that are downloaded via these services.</p>
+        
+    ]]></string>
+    <string name="menu_item_next">Avanti</string>
+    <string name="fetch_which_url">Da quale URL deve essere recuperato il certificato?</string>
+    <string name="querying_server">Richiesta al server…</string>
+    
+    <string name="hostname_not_matching">L\'host name \"%1$s\" non corrisponde al soggetto del certificato (in accordo a BrowserCompatHostnameVerifier)!</string>
+    <string name="currently_not_valid">Il certificato è scaduto o non è ancora valido!</string>
+    <string name="is_not_a_ca">Il certificato non specifica il flag CA nelle limitazioni di base (Basic Contraints) sebbene Android
+        lo richieda! Android potrebbe importare questo certificato senza mostrare un errore, ma non sarà mostrato nella lista.</string>
+        
+    <string name="export_successful">Il certificato è stato esportato. Ricorda il nome del file perchè dovrai selezionarlo nel prossimo passaggio:</string>
+    <string name="export_failed">Il certificato non può essere esportato!</string>
+        
+    <string name="import_text"><![CDATA[
+        <p>Il certificato è stato salvato nella tua "external storage". Ora puoi importarlo nel
+        tuo dispositivo Android usando le Impostazioni di Android (Sicurezza):</p>
+        
+        <p>1. Clicca su \"Apri Impostazioni\" per aprire le Impostazioni di Android.</p>
+        <p>2. Scorri giù fino a \"Archivio Credenziali\".</p>
+        <p>3. Usa \"Installa da archivio\" (il termine esatto può variare) e segui le istruzioni.</p>
+        <p>Nota 1: Sarà necessario inserire un PIN o una password per il blocco schermo
+        (<a href="https://code.google.com/p/android/issues/detail?id=31101">Android bug #31101</a>).</p>
+        <p>Nota 2: Su Android 4.4+, potrebbe comparire una notifica strana \"La rete potrebbe essere monitorata\"
+        (<a href="https://code.google.com/p/android/issues/detail?id=62644">Android bug #62644</a>).</p>
+        
+        <p>4. Dopo che è stato installato il certificato, puoi verificare se funziona andando su \"Credenziali attendibili
+        (Visualizza certificati CA attendibili)\" nelle Impostazioni (Sicurezza). Il tuo certificato auto-firmato CA dovrebbe apparire nella scheda
+        \"Utente\". Congratulazioni!</p>
+    ]]></string>
+    <string name="open_settings">Apri Impostazioni</string>
+    <string name="menu_help">Aiuto</string>
+    
+</resources>
